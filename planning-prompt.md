@@ -217,6 +217,21 @@ less:
      does Jev triage keep recall within an agreed margin of LLM-only while
      cutting cost? Is the gate removing more noise than real findings? Is
      the PoC worth continuing? Give the numbers behind each answer.
+   - **Quick summary report.** Also write a separate `summary.md`, under
+     about 20 lines, that I can read in a minute or paste into a chat
+     without editing:
+     - A one-line verdict, e.g. "Jev triage: same recall (9/10 vs 9/10),
+       58% cheaper, 2 fewer noise comments. Worth continuing."
+     - A small table with one row per metric and one column per arm, plus
+       a difference column: bugs found, bugs missed, noise comments, cost,
+       latency, and share of hunks the LLM saw.
+     - The top 3 findings, e.g. bugs only one arm caught, or the stage
+       losing the most bugs.
+     - One recommended next step.
+     - A link to the full report and the run ID/date/model versions, so the
+       numbers can be traced back.
+     Generate it from the same JSON as the full report, never retyped by
+     hand, so the two can't disagree.
    - The comparison runs from one command (e.g. `compare.py`). It reuses the
      record/replay cache for Jev, and also caches LLM responses so the report
      can be regenerated without paying again. Say roughly what one full
