@@ -74,3 +74,35 @@ TOTAL_TIMEOUT_S = 20.0
 MAX_RETRIES = 3
 RETRY_BASE_DELAYS_S = (0.5, 1.5, 4.0)
 RETRY_JITTER_FRACTION = 0.25
+
+# --- Review LLM (design-doc.md §3 "light vs deep, concretely different") -
+# Pinned for the same reason as JEV_MODEL_ID: a silent model swap can
+# shift both quality and cost without anyone deciding that on purpose.
+# Both arms of eval/compare.py's Jev-vs-LLM-only comparison MUST use
+# this same model ID — comparing different LLMs would test the wrong
+# thing.
+REVIEW_LLM_MODEL_ID = "anthropic/claude-sonnet-5"
+CHAT_COMPLETIONS_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
+
+# Comments allowed per hunk, by route. Kept genuinely different per
+# design-doc.md §3's instruction to merge the tiers if they aren't —
+# deep-review also gets the full enclosing_context in its prompt while
+# light-review gets only the diff (see llm_client.render_review_prompt).
+LIGHT_REVIEW_MAX_COMMENTS = 2
+DEEP_REVIEW_MAX_COMMENTS = 5
+
+# --- Comparison report matching rule (design-doc.md §9) -------------------
+# A comment counts as finding a seeded bug if it cites a line within
+# this many lines of a labelled bug_line. Fixed before looking at any
+# results, per §9's requirement. For a deletion-only bug (no bug_lines
+# in after.py — the bug IS the missing lines) a comment counts if it
+# was generated from the hunk containing the deletion, since there's no
+# post-change line to anchor a window to.
+MATCH_LINE_WINDOW = 5
+
+# How many times each arm runs in eval/compare.py, to report mean and
+# spread rather than a single (noisy) LLM sample. See design-doc.md §9
+# "Variance." A deterministic mock/oracle run will show zero spread by
+# construction — that's expected, not a bug — real variance only shows
+# up with --live.
+COMPARISON_RUNS_PER_ARM = 3

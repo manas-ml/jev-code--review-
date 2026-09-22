@@ -90,12 +90,15 @@ class Hunk:
     def char_size(self) -> int:
         return len(self.rendered_diff)
 
-    def render_state(self, llm: bool = False) -> str:
+    def render_state(self, llm: bool = False, include_enclosing_context: bool = True) -> str:
         """Render the text sent to Jev (llm=False) or the review LLM
-        (llm=True, larger cap, no truncation marker games)."""
+        (llm=True, larger cap, no truncation marker games).
+        `include_enclosing_context=False` is how light-review drops the
+        full enclosing function per design-doc.md §3 ("light vs deep,
+        concretely different") — deep-review passes True."""
         cap = LLM_PROMPT_MAX_CHARS if llm else HUNK_MAX_CHARS
         parts = [f"FILE: {self.file_path}", f"CHANGE: {self.change_kind.value}"]
-        if self.enclosing_symbol:
+        if self.enclosing_symbol and include_enclosing_context:
             parts.append(f"ENCLOSING FUNCTION (post-change): {self.enclosing_symbol}")
             if self.enclosing_context:
                 parts.append(self.enclosing_context)
