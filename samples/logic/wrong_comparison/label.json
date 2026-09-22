@@ -1,0 +1,7 @@
+{
+  "description": "Boundary flipped from < to <=: someone earning exactly the cap now incorrectly qualifies.",
+  "expected_category": "logic",
+  "expected_min_route": "light-review",
+  "bug_lines": [3],
+  "clean": false
+}

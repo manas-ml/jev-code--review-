@@ -1,0 +1,7 @@
+{
+  "description": "Mutable default argument: the same list is reused and grows across unrelated calls.",
+  "expected_category": "data-model",
+  "expected_min_route": "light-review",
+  "bug_lines": [1],
+  "clean": false
+}

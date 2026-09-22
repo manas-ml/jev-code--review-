@@ -1,0 +1,7 @@
+{
+  "description": "Lock acquisition removed from increment(): concurrent callers can race and lose updates.",
+  "expected_category": "concurrency",
+  "expected_min_route": "light-review",
+  "bug_lines": [9],
+  "clean": false
+}

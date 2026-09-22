@@ -1,0 +1,8 @@
+{
+  "description": "Deletion-only bug: the finally: conn.close() block was removed, leaking the connection on every call (and on exceptions too).",
+  "expected_category": "resource",
+  "expected_min_route": "light-review",
+  "bug_lines": [],
+  "deletion_only": true,
+  "clean": false
+}

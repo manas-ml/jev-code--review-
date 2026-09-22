@@ -1,0 +1,7 @@
+{
+  "description": "Parameterized query replaced with an f-string built from request data: classic SQL injection.",
+  "expected_category": "security",
+  "expected_min_route": "deep-review",
+  "bug_lines": [3, 4],
+  "clean": false
+}

@@ -1,0 +1,7 @@
+{
+  "description": "Held-out negative: adding a docstring only, no behavior change.",
+  "expected_category": "style-only",
+  "expected_min_route": "skip",
+  "bug_lines": [],
+  "clean": true
+}

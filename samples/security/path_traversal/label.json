@@ -1,0 +1,7 @@
+{
+  "description": "os.path.basename() dropped: filename like '../../etc/passwd' now escapes SAFE_ROOT.",
+  "expected_category": "security",
+  "expected_min_route": "deep-review",
+  "bug_lines": [6],
+  "clean": false
+}

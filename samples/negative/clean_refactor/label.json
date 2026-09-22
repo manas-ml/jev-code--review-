@@ -1,0 +1,7 @@
+{
+  "description": "Cosmetic-only: string concatenation switched to an f-string, identical behavior.",
+  "expected_category": "style-only",
+  "expected_min_route": "skip",
+  "bug_lines": [],
+  "clean": true
+}

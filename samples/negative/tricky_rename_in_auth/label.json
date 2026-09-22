@@ -1,0 +1,7 @@
+{
+  "description": "Tricky negative: a parameter rename inside authentication code (candidate_pw -> submitted_pw), no behavior change, but sits in a security-sensitive function so a naive path-based rule would flag it.",
+  "expected_category": "style-only",
+  "expected_min_route": "skip",
+  "bug_lines": [],
+  "clean": true
+}

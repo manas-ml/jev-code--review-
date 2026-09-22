@@ -1,0 +1,7 @@
+{
+  "description": "round() replaced by int(): float truncation instead of rounding silently loses a cent on values like 12.999999999999998 from float imprecision.",
+  "expected_category": "data-model",
+  "expected_min_route": "light-review",
+  "bug_lines": [3],
+  "clean": false
+}

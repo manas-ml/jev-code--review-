@@ -1,0 +1,7 @@
+{
+  "description": "Check-then-lock instead of lock-then-check: classic TOCTOU, two threads can both pass the 'not in cache' check and both compute.",
+  "expected_category": "concurrency",
+  "expected_min_route": "light-review",
+  "bug_lines": [7, 8, 9, 10],
+  "clean": false
+}

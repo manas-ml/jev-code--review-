@@ -1,0 +1,7 @@
+{
+  "description": "Tricky negative: a comment-only addition inside a lock block. Looks concurrency-adjacent but changes nothing.",
+  "expected_category": "style-only",
+  "expected_min_route": "skip",
+  "bug_lines": [],
+  "clean": true
+}

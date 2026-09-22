@@ -1,0 +1,7 @@
+{
+  "description": "Held-out: a live API key hardcoded into source instead of read from the environment.",
+  "expected_category": "security",
+  "expected_min_route": "deep-review",
+  "bug_lines": [2],
+  "clean": false
+}

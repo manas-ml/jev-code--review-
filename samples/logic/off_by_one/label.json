@@ -1,0 +1,7 @@
+{
+  "description": "Off-by-one: slice should be items[len-n:], now drops one extra item.",
+  "expected_category": "logic",
+  "expected_min_route": "light-review",
+  "bug_lines": [5],
+  "clean": false
+}

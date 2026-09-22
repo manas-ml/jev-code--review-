@@ -1,0 +1,7 @@
+{
+  "description": "with-block replaced by a bare open(): the file handle is never closed.",
+  "expected_category": "resource",
+  "expected_min_route": "light-review",
+  "bug_lines": [2, 3],
+  "clean": false
+}
