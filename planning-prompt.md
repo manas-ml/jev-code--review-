@@ -21,7 +21,8 @@ look*; an LLM should decide *what to say*.
 - Zero seeded bugs routed to `skip` on the eval set.
 - A meaningful share of clean/cosmetic hunks skipped (target: ≥40%).
 - Total cost (Jev + LLM) per PR lower than "LLM reviews every hunk", at equal
-  or better bug recall.
+  or better bug recall. This is measured head-to-head in the final
+  comparison report (item 9).
 If the design can't plausibly meet these, say so up front.
 
 **Non-goals for now:** posting to GitHub, languages other than Python,
@@ -177,6 +178,50 @@ less:
    numbered list of decisions, each with your recommended default, so I
    can answer them by number.
 
+9. **Comparison report: Jev-triaged vs. LLM-only.** This is the final step.
+   Once the full pipeline runs, run the same eval samples through two
+   arms and write a side-by-side report:
+   - **Arm A: Jev-triaged.** Pre-filter → Jev triage → LLM review of routed
+     hunks → Jev gate.
+   - **Arm B: LLM-only.** Pre-filter → LLM reviews *every* hunk, with no
+     Jev anywhere.
+   - Keep it a fair fight: both arms use the same LLM model ID, review
+     prompt, context size and temperature. The only difference is whether
+     Jev is in the loop. If "deep review" uses a stronger prompt than
+     "light", Arm B uses the deep prompt on every hunk. Otherwise LLM-only
+     is set up to lose.
+   - **Matching comments to bugs.** Define how a comment counts as finding
+     a seeded bug before looking at results. For example, the comment
+     touches the labelled bug line(s) ± N lines and names the right problem.
+     Settle "names the right problem" with a fixed rule or an LLM judge
+     using a pinned rubric, applied identically to both arms. Show a few
+     matched and unmatched examples so I can check the matcher.
+   - **Metrics per arm:**
+     - Bugs found / bugs missed. List each missed bug by name, and flag any
+       bug that one arm caught and the other didn't.
+     - Missed-bug cause for Arm A: skipped by triage, reviewed but the LLM
+       missed it, or found but dropped by the gate. This says which stage
+       to fix.
+     - Noise: comments that don't match any seeded bug, per arm. Hand-label
+       a sample of them as useful/not useful, since some may be real.
+     - Comments on clean/negative-control samples (should be ~0).
+     - Tokens, cost, and wall-clock latency, split by stage (Jev, LLM,
+       gate), plus the share of hunks the LLM actually saw in Arm A.
+   - **Variance:** LLM output varies between runs, so run each arm at least
+     3 times (or explain why fewer is enough) and report mean and spread. A
+     one-bug difference on this small set is not a result.
+   - **Held-out slice** results reported separately from the tuning set.
+   - **Format:** a Markdown report for me (a summary table on top,
+     per-sample table below, then the list of disagreements between arms)
+     plus the raw JSON it was built from. Include a closing **verdict**:
+     does Jev triage keep recall within an agreed margin of LLM-only while
+     cutting cost? Is the gate removing more noise than real findings? Is
+     the PoC worth continuing? Give the numbers behind each answer.
+   - The comparison runs from one command (e.g. `compare.py`). It reuses the
+     record/replay cache for Jev, and also caches LLM responses so the report
+     can be regenerated without paying again. Say roughly what one full
+     comparison run costs.
+
 **Constraints:** Python 3.11+, minimal dependencies (an HTTP client and a
 test runner; no agent framework), `OPENROUTER_API_KEY` read from the
 environment only and never logged, and the test suite must pass offline
@@ -186,9 +231,10 @@ using mock/replay.
 item above), then the "Unverified assumptions" list, then a proposed file
 layout (one file per concern: Jev client, questions/thresholds, hunk
 splitting, pre-filter, review pipeline, mock/replay backends, eval script,
-samples, tests). Then a build order in small, individually testable steps,
-with the eval-only milestone (triage measured, no LLM stage) as an explicit
-checkpoint where I decide whether to continue. No code yet — I'll review
+comparison script and report, samples, tests). Then a build order in small,
+individually testable steps. Include two explicit checkpoints where I decide
+whether to continue: the eval-only milestone (triage measured, no LLM
+stage), and the Jev-vs-LLM-only comparison report as the final deliverable. No code yet — I'll review
 this plan and tell you to proceed.
 
 ---
